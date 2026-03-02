@@ -1,22 +1,28 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-# Спільне меню для всіх сторінок
-menu = """
-    <hr>
-    <nav>
-        <a href="/">Головна</a> | 
-        <a href="/about/">Про нас</a> | 
-        <a href="/contact/">Контакти</a>
-    </nav>
-    <hr>
-"""
+POSTS = [
+    {'id': 1, 'title': 'Вступ до Django', 'author': 'Іван', 'content': 'Django — це круто!'},
+    {'id': 2, 'title': 'Python для початківців', 'author': 'Марія', 'content': 'Вчимо основи Python.'},
+    {'id': 3, 'title': 'Поради по розробці', 'author': 'Іван', 'content': 'Пишіть чистий код.'},
+]
+
 
 def index(request):
-    return HttpResponse(f"<h1>Головна сторінка блогу</h1><p>Вітаємо на нашому сайті!</p>{menu}")
+    query_author = request.GET.get('q')
+    results = POSTS
+    if query_author:
+        results = [p for p in POSTS if p['author'].lower() == query_author.lower()]
 
-def about(request):
-    return HttpResponse(f"<h1>Про нас</h1><p>Ми створюємо найкращий контент для вас.</p>{menu}")
+    return render(request, 'blog/index.html', {'posts': results})
 
-def contact(request):
-    return HttpResponse(f"<h1>Контакти</h1><p>Зв'яжіться з нами за адресою: info@example.com</p>{menu}")
+
+def post_detail(request, post_id):
+    post_found = next((p for p in POSTS if p['id'] == post_id), None)
+    if post_found:
+        return render(request, 'blog/post_detail.html', {'post': post_found})
+    return HttpResponse("Статтю не знайдено", status=404)
+
+
+def category_posts(request, category_name):
+    return HttpResponse(f"Категорія: {category_name}")

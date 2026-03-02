@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Категорія: {{ category|upper }}</title>
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'blog:index' %}">Головна</a>
+        </nav>
+        <h1>Пости в категорії: {{ category|upper }}</h1>
+        <p>Знайдено статей: {{ posts|length }}</p>
+    </header>
+
+    <main>
+        {% for post in posts %}
+            <article>
+                <h2><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></h2>
+                <p>{{ post.content|truncatewords:15 }}</p>
+            </article>
+        {% empty %}
+            <p>У цій категорії поки немає статей.</p>
+        {% endfor %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Мій Django Проєкт</p>
+    </footer>
+</body>
+</html>
