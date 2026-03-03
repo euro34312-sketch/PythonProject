@@ -1,31 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="uk">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>{{ post.title }}</title>
-    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+    <link rel="stylesheet" href="/static/blog/css/style.css">
 </head>
-<body>
-    <header>
-        <nav>
-            <a href="{% url 'blog:index' %}">← Назад до списку</a>
-        </nav>
-    </header>
-
-    <main>
-        <article>
-            <h1>{{ post.title }}</h1>
-            <p><em>Опубліковано: {{ post.published_date }} | Автор: {{ post.author }}</em></p>
-            <hr>
-            <div class="content">
-                {{ post.content|linebreaks }}
-            </div>
-        </article>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Мій Django Проєкт</p>
-    </footer>
+<body class="container">
+    <a href="/">← Назад</a>
+    <h1>{{ post.title }}</h1>
+    <p><i>Автор: {{ post.author }} | Категорія: {{ post.category }}</i></p>
+    <div class="content">{{ post.content }}</div>
+    <hr>
+    <div class="comments">
+        <h3>Коментарі:</h3>
+        {% for comment in comments %}
+            <p><b>{{ comment.author }}:</b> {{ comment.text }}</p>
+        {% empty %}
+            <p>Немає коментарів.</p>
+        {% endfor %}
+    </div>
 </body>
 </html>

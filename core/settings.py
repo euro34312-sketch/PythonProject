@@ -124,7 +124,6 @@ import os
 
 STATIC_URL = 'static/'
 
-# Якщо папка static всередині папки blog:
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'blog', 'static'),
 ]

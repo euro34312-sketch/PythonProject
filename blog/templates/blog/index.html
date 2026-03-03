@@ -1,29 +1,23 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="uk">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Мій Блог</title>
+     <title>Блог</title>
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
 </head>
-<body>
-    <header>
-        <h1>Список статей</h1>
-    </header>
-
-    <main>
+<body class="container">
+    <h1 class="header">Список статей</h1>
+    <form method="get" class="search-box">
+        <input type="text" name="q" placeholder="Автор..." value="{{ query_author|default:'' }}">
+        <button type="submit">Шукати</button>
+    </form>
+    <div class="list">
         {% for post in posts %}
-            <article>
-                <h2>{{ post.title }}</h2>
-                <p>Автор: {{ post.author }}</p>
-                <p>{{ post.content|truncatewords:20 }}</p>
-                <a href="{% url 'blog:post_detail' post.id %}">Читати далі</a>
-            </article>
+            <div class="item">
+                <h3><a href="/post/{{ post.id }}/">{{ post.title }}</a></h3>
+                <p>Автор: {{ post.author }} | {{ post.date }}</p>
+            </div>
         {% endfor %}
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Мій Django Проєкт</p>
-    </footer>
+    </div>
 </body>
 </html>
