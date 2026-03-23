@@ -80,8 +80,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'my_django_db',      # Назва бази, яку ти створиш (див. крок 3)
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        # Назва бази, яку ти створиш (див. крок 3)
         'USER': 'postgres',          # Твій логін у PostgreSQL
         'PASSWORD': 'your_password', # Твій пароль
         'HOST': '127.0.0.1',         # Або 'localhost'

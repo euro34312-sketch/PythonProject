@@ -2,21 +2,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-     <title>Блог</title>
+    <title>Блог</title>
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
 </head>
 <body class="container">
     <h1 class="header">Список статей</h1>
-    <form method="get" class="search-box">
-        <input type="text" name="q" placeholder="Автор..." value="{{ query_author|default:'' }}">
+
+    <form method="get" action="{% url 'blog:search' %}" class="search-box">
+        <input type="text" name="q" placeholder="Пошук за назвою або автором..." value="{{ query_author|default:'' }}">
         <button type="submit">Шукати</button>
     </form>
+
     <div class="list">
         {% for post in posts %}
             <div class="item">
                 <h3><a href="/post/{{ post.id }}/">{{ post.title }}</a></h3>
                 <p>Автор: {{ post.author }} | {{ post.date }}</p>
             </div>
+        {% empty %}
+            <p>Нічого не знайдено за вашим запитом.</p>
         {% endfor %}
     </div>
 </body>
